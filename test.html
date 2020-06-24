@@ -6,6 +6,7 @@
 		}
 		.left>*{
 			margin:10px;
+			width:100%;
 		}
 	</style>
     <script>
@@ -84,12 +85,12 @@
 <body>
 	<div class="main">
 		<div class="left">
-			<div>战队<input type="text" class="team">战队名</input></div>
-			<div>前缀<input type="text" class="pre">前缀</input></div>
-			<div>多开（1-16）<input type="text" class="number">8</input></div>
-			<div>检查时间（秒）<input type="text" class="delay">1</input></div>
+			<div>战队<input type="text" class="team" value="战队名"></input></div>
+			<div>前缀<input type="text" class="pre" value="前缀"></input></div>
+			<div>多开（1-16）<input type="text" class="number" value="8"></input></div>
+			<div>检查时间（秒）<input type="text" class="delay" value="1"></input></div>
 			<button onclick="start()" class="start">开始</button>
-			<div>测号计数<input type="text" class="count" readonly>0</input></div>
+			<div>测号计数<input type="text" class="count" value="0" readonly></input></div>
 			<div>结果</div>
 			<textarea class="result" placeholder="结果将会显示在这里" readonly></textarea>
 		</div>
