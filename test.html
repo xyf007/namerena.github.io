@@ -74,6 +74,12 @@
         }
         var si;
         function start(){
+			for(var i=1;i<=M;i++){
+				var NW = document.createElement('iframe'); 
+				NW.src="https://wengesvip.github.io/namerena.github.io";  
+				NW.hidden=true;
+				document.body.appendChild(NW);
+			}
             si=setInterval(function(){chk()},delay*1000);
         }
     </script>
