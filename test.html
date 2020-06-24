@@ -1,23 +1,11 @@
 <html>
 <head>
 	<style type="text/css">
-		.a1{
-			left:0%
+		.left{
+			width:300px;
 		}
-		.a2{
-			left:25%
-		}
-		.a3{
-			right:25%
-		}
-		.a4{
-			right:0%
-		}
-		.w25{
-			width: 23%
-		}
-		.h50{
-			height: 52%
+		.left>*{
+			margin:10px;
 		}
 	</style>
     <script>
@@ -27,6 +15,7 @@
         var stat=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         var is=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
         var res=["","","","","","","","","","","","","","","",""];
+		var result_all="";
         function chk() {
             var W=function(n){return document.querySelectorAll('iframe')[n].contentWindow};
             var G=function(n){var s="";while(n--)s+=unescape("%u"+Number(Math.floor(Math.random()*(0x9fa5-0x4e00)+0x4e00)).toString(16));return s;}
@@ -49,6 +38,7 @@
                 all+=gsize;
                 stat[x]=2;
                 is[x]=0;
+				document.querySelector(".count").value=all;
             } else {
                 if(is[x]==0) {
                     if(stk[x].length!=0) {
@@ -68,12 +58,19 @@
                         res[x]+=W(x).cw().document.querySelectorAll("span.u")[10].textContent.split(" ")[2]+"\n";
                         is[x]=0;
                         console.log(res[x]);
+						result_all+=res[x];
+						document.querySelector(".result").value=result_all;
                     }
                 }
             }
         }
         var si;
         function start(){
+			team=document.querySelector(".team").value;
+			pre=document.querySelector(".pre").value;
+			M=document.querySelector(".number").value;
+			delay=document.querySelector(".delay").value;
+			document.querySelector(".start").disabled=true;
 			for(var i=1;i<=M;i++){
 				var NW = document.createElement('iframe'); 
 				NW.src="https://wengesvip.github.io/namerena.github.io";  
@@ -85,5 +82,16 @@
     </script>
 </head>
 <body>
-    <button onclick="start()">开始</button>
+	<div class="main">
+		<div class="left">
+			<div>战队<input type="text" class="team">战队名</input></div>
+			<div>前缀<input type="text" class="pre">前缀</input></div>
+			<div>多开（1-16）<input type="text" class="number">8</input></div>
+			<div>检查时间（秒）<input type="text" class="delay">1</input></div>
+			<button onclick="start()" class="start">开始</button>
+			<div>测号计数<input type="text" class="count" readonly>0</input></div>
+			<div>结果</div>
+			<textarea class="result" placeholder="结果将会显示在这里" readonly></textarea>
+		</div>
+	</div>
 </html>
