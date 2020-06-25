@@ -99,8 +99,8 @@
 						var score=W(x).cw().document.querySelectorAll("span.u")[10].textContent.split(" ")[2];
 						res[x]+=score+"\n";
 						console.log(res[x]);
+						is[x]=0;
 						if(score>=threshold){
-							is[x]=0;
 							result_all+=res[x];
 							document.querySelector(".result").value=result_all;
 						}
