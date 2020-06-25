@@ -100,7 +100,7 @@
 						res[x]+=score+"\n";
 						console.log(res[x]);
 						is[x]=0;
-						if(score>=threshold){
+						if(parseInt(score)>=parseInt(threshold)){
 							result_all+=res[x];
 							document.querySelector(".result").value=result_all;
 						}
