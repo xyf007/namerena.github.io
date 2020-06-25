@@ -28,17 +28,17 @@
 			min-height:500px;
 		}
 	</style>
-    <script>
-        var M=8,C=0,delay=1,all=0,gsize=1000,mode,cur=0,threshold;
-        var pre="ÎÄ¸ë",suf="",team="ÎÄ¸ç";
-        var stk=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
-        var stat=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-        var is=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-        var res=["","","","","","","","","","","","","","","",""];
+	<script>
+		var M=8,C=0,delay=1,all=0,gsize=1000,mode,cur=0,threshold;
+		var pre="æ–‡é¸½",suf="",team="æ–‡å“¥";
+		var stk=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+		var stat=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		var is=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		var res=["","","","","","","","","","","","","","","",""];
 		var result_all="";
-        function chk() {
-            var W=function(n){return document.querySelectorAll('iframe')[n].contentWindow};
-            var G=function(){
+		function chk() {
+			var W=function(n){return document.querySelectorAll('iframe')[n].contentWindow};
+			var G=function(){
 				var s="!test!\n\n";
 				if(mode="hanzi"){
 					for(var i=1;i<=gsize;i++){
@@ -61,41 +61,41 @@
 				}
 				return s;
 			}
-            var x=C;C++;if(C==M)C=0;
+			var x=C;C++;if(C==M)C=0;
 
-            if(stat[x]==0) {
+			if(stat[x]==0) {
 				var s=G();
-                W(x).document.querySelector("#textdiv>textarea").value=s;
-                W(x).document.querySelector(".goBtn").click();
-                stat[x]=1;
-                is[x]=1;
-            } else if(stat[x]==1&&W(x).cw().document.querySelectorAll("span.u").length>=2) {
-                var a=W(x).cw().document.querySelectorAll(".s_elite3");
-                var n=a.length;
-                for(var i=0; i<n; i++) {
-                    stk[x].push(a[i].parentElement.previousElementSibling.textContent);
-                }
-                //console.log(names);
-                all+=gsize;
-                stat[x]=2;
-                is[x]=0;
+				W(x).document.querySelector("#textdiv>textarea").value=s;
+				W(x).document.querySelector(".goBtn").click();
+				stat[x]=1;
+				is[x]=1;
+			} else if(stat[x]==1&&W(x).cw().document.querySelectorAll("span.u").length>=2) {
+				var a=W(x).cw().document.querySelectorAll(".s_elite3");
+				var n=a.length;
+				for(var i=0; i<n; i++) {
+					stk[x].push(a[i].parentElement.previousElementSibling.textContent);
+				}
+				//console.log(names);
+				all+=gsize;
+				stat[x]=2;
+				is[x]=0;
 				document.querySelector(".count").value=all;
-            } else {
-                if(is[x]==0) {
-                    if(stk[x].length!=0) {
-                        var s=stk[x][stk[x].length-1];
-                        res[x]=s+" ";
-                        W(x).document.querySelector("#textdiv>textarea").value="!test!\n\n"+s;
-                        W(x).document.querySelector(".goBtn").click();
-                        is[x]=1;
-                        stk[x].pop();
-                    } else {
-                        stat[x]=0;
-                    }
-                } else {
-                    var a=W(x).cw().document.querySelectorAll("span.u");
-                    var n=a.length;
-                    if(n)if(a[n-1].textContent.search(/ÊµÁ¦ÆÀ¹ÀÖĞ...[1-9][1-9]%/)!=-1) {
+			} else {
+				if(is[x]==0) {
+					if(stk[x].length!=0) {
+						var s=stk[x][stk[x].length-1];
+						res[x]=s+" ";
+						W(x).document.querySelector("#textdiv>textarea").value="!test!\n\n"+s;
+						W(x).document.querySelector(".goBtn").click();
+						is[x]=1;
+						stk[x].pop();
+					} else {
+						stat[x]=0;
+					}
+				} else {
+					var a=W(x).cw().document.querySelectorAll("span.u");
+					var n=a.length;
+					if(n)if(a[n-1].textContent.search(/å®åŠ›è¯„ä¼°ä¸­...[1-9][1-9]%/)!=-1) {
 						var score=W(x).cw().document.querySelectorAll("span.u")[10].textContent.split(" ")[2];
 						if(score>=threshold){
 							res[x]+=score+"\n";
@@ -104,12 +104,12 @@
 							result_all+=res[x];
 							document.querySelector(".result").value=result_all;
 						}
-                    }
-                }
-            }
-        }
-        var si;
-        function start(){
+					}
+				}
+			}
+		}
+		var si;
+		function start(){
 			team=document.querySelector(".team").value;
 			pre=document.querySelector(".pre").value;
 			M=document.querySelector(".number").value;
@@ -124,8 +124,8 @@
 				NW.hidden=true;
 				document.body.appendChild(NW);
 			}
-            setTimeout(function(){ si=setInterval(function(){chk()},delay*1000) },document.querySelector(".timeout").value*1000);
-        }
+			setTimeout(function(){ si=setInterval(function(){chk()},delay*1000) },document.querySelector(".timeout").value*1000);
+		}
 		function save(){
 			var data=result_all;
 			var name=((new Date()).toLocaleDateString() + (new Date()).toLocaleTimeString()).replace(/ *[:\/]/g,"_")+".txt";
@@ -138,37 +138,37 @@
 			ev.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 			save_link.dispatchEvent(ev);
 		}
-    </script>
+	</script>
 </head>
 <body>
 	<div class="main">
 		<div class="w300 settings">
-			<div class="a100">Õ½¶Ó<input type="text" class="team" value="Õ½¶ÓÃû"></input></div>
-			<div class="a100">Ç°×º<input type="text" class="pre" value="Ç°×º"></input></div>
-			<div class="a100">ºó×º<input type="text" class="suf" value=""></input></div>
-			<div class="a100">Ä£Ê½
+			<div class="a100">æˆ˜é˜Ÿ<input type="text" class="team" value="æˆ˜é˜Ÿå"></input></div>
+			<div class="a100">å‰ç¼€<input type="text" class="pre" value="å‰ç¼€"></input></div>
+			<div class="a100">åç¼€<input type="text" class="suf" value=""></input></div>
+			<div class="a100">æ¨¡å¼
 				<select class="mode">
-					<option selected="selected" value="hanzi">3¸öËæ»úºº×Ö</option>
-					<option value="digit">´Ó0¿ªÊ¼µÄÊı×Ö</option>
-					<option value="alnum">Ëæ»úµÄ8¸öÊı×ÖºÍ´óĞ´×ÖÄ¸</option>
+					<option selected="selected" value="hanzi">3ä¸ªéšæœºæ±‰å­—</option>
+					<option value="digit">ä»0å¼€å§‹çš„æ•°å­—</option>
+					<option value="alnum">éšæœºçš„8ä¸ªæ•°å­—å’Œå¤§å†™å­—æ¯</option>
 				</select>
 			</div>
-			<div><input type="checkbox" value="elite2">ÆÀ²â2¼¶ºÅ£¨ÔİÎ´¸üĞÂ£©</input></div>
+			<div><input type="checkbox" value="elite2">è¯„æµ‹2çº§å·ï¼ˆæš‚æœªæ›´æ–°ï¼‰</input></div>
 		</div>
 		<div style="float:left;margin:10px;margin-top: 20px;width: 1px;height: 90%; background: darkgray;"></div> 
 		<div class="w300 settings">
-			<div class="a100">¶à¿ª£¨1-16£©<input type="text" class="number" value="8"></input></div>
-			<div class="a100">×îµÍÆÀ·Ö£¨´ÖÆÀµÍÓÚÕâ¸öÆÀ·ÖµÄÃû×Ö½«»á±»¶ªÆú£©<input type="text" class="threshold" value="6000"></input></div>
-			<div class="a100">¼ì²éÊ±¼ä£¨Ãë£©<input type="text" class="delay" value="1"></input></div>
-			<div class="a100">¿ªÊ¼ÑÓ³Ù£¨Ãë£©<input type="text" class="timeout" value="10"></input></div>
+			<div class="a100">å¤šå¼€ï¼ˆ1-16ï¼‰<input type="text" class="number" value="8"></input></div>
+			<div class="a100">æœ€ä½è¯„åˆ†ï¼ˆç²—è¯„ä½äºè¿™ä¸ªè¯„åˆ†çš„åå­—å°†ä¼šè¢«ä¸¢å¼ƒï¼‰<input type="text" class="threshold" value="6000"></input></div>
+			<div class="a100">æ£€æŸ¥æ—¶é—´ï¼ˆç§’ï¼‰<input type="text" class="delay" value="1"></input></div>
+			<div class="a100">å¼€å§‹å»¶è¿Ÿï¼ˆç§’ï¼‰<input type="text" class="timeout" value="10"></input></div>
 		</div>
 		<div style="float:left;margin:10px;margin-top: 20px;width: 1px;height: 90%; background: darkgray;"></div> 
 		<div class="w300 res">
-			<button onclick="start()" class="start">¿ªÊ¼</button>
-			<div class="a100">²âºÅ¼ÆÊı<input type="text" class="count" value="0" readonly></input></div>
-			<div class="a100">½á¹û</div>
-			<button onclick="save()" class="save">ÏÂÔØ½á¹û</button>
-			<textarea class="result" placeholder="½á¹û½«»áÏÔÊ¾ÔÚÕâÀï" readonly></textarea>
+			<button onclick="start()" class="start">å¼€å§‹</button>
+			<div class="a100">æµ‹å·è®¡æ•°<input type="text" class="count" value="0" readonly></input></div>
+			<div class="a100">ç»“æœ</div>
+			<button onclick="save()" class="save">ä¸‹è½½ç»“æœ</button>
+			<textarea class="result" placeholder="ç»“æœå°†ä¼šæ˜¾ç¤ºåœ¨è¿™é‡Œ" readonly></textarea>
 		</div>
 	</div>
 </html>
