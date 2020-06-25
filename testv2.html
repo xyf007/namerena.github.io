@@ -40,7 +40,7 @@
 			var W=function(n){return document.querySelectorAll('iframe')[n].contentWindow};
 			var G=function(){
 				var s="!test!\n\n";
-				if(mode="hanzi"){
+				if(mode=="hanzi"){
 					for(var i=1;i<=gsize;i++){
 						var t="";
 						for(var j=1;j<=3;j++)t+=unescape("%u"+Number(Math.floor(Math.random()*(0x9fa5-0x4e00)+0x4e00)).toString(16));
