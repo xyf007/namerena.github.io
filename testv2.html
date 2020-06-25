@@ -70,7 +70,7 @@
 				stat[x]=1;
 				is[x]=1;
 			} else if(stat[x]==1&&W(x).cw().document.querySelectorAll("span.u").length>=2) {
-				var a=W(x).cw().document.querySelectorAll(".s_elite3");
+				var a=W(x).cw().document.querySelectorAll(".s_elite1");
 				var n=a.length;
 				for(var i=0; i<n; i++) {
 					stk[x].push(a[i].parentElement.previousElementSibling.textContent);
@@ -97,10 +97,10 @@
 					var n=a.length;
 					if(n)if(a[n-1].textContent.search(/实力评估中...[1-9][1-9]%/)!=-1) {
 						var score=W(x).cw().document.querySelectorAll("span.u")[10].textContent.split(" ")[2];
+						res[x]+=score+"\n";
+						console.log(res[x]);
 						if(score>=threshold){
-							res[x]+=score+"\n";
 							is[x]=0;
-							console.log(res[x]);
 							result_all+=res[x];
 							document.querySelector(".result").value=result_all;
 						}
