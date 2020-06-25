@@ -1,83 +1,122 @@
 <html>
 <head>
 	<style type="text/css">
-		.left{
-			width:300px;
+		.main{
+			display: flex;
+			flex-direction: row;
+			width:100%;
+			height:100%;
 		}
-		.left>*{
+		div.w300{
 			margin:10px;
+			margin-top:0px;
+			width:350px;
+			height:100%;
+		}
+		div.w300>*{
+			margin-top:10px;
 			width:100%;
 		}
-		input{
+		div.a100>input{
+			width:100%;
+		}
+		select{
 			width:100%;
 		}
 		textarea{
 			width:100%;
-			min-height:300px;
+			min-height:500px;
 		}
 	</style>
-    <script>
-        var M=8,C=0,delay=1,all=0,gsize=1000;
-        var pre="文鸽",team="文哥";
-        var stk=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
-        var stat=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-        var is=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-        var res=["","","","","","","","","","","","","","","",""];
+	<script>
+		var M=8,C=0,delay=1,all=0,gsize=1000,mode,cur=0,threshold;
+		var pre="文鸽",suf="",team="文哥";
+		var stk=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
+		var stat=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		var is=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+		var res=["","","","","","","","","","","","","","","",""];
 		var result_all="";
-        function chk() {
-            var W=function(n){return document.querySelectorAll('iframe')[n].contentWindow};
-            var G=function(n){var s="";while(n--)s+=unescape("%u"+Number(Math.floor(Math.random()*(0x9fa5-0x4e00)+0x4e00)).toString(16));return s;}
-            var x=C;C++;if(C==M)C=0;
+		function chk() {
+			var W=function(n){return document.querySelectorAll('iframe')[n].contentWindow};
+			var G=function(){
+				var s="!test!\n\n";
+				if(mode=="hanzi"){
+					for(var i=1;i<=gsize;i++){
+						var t="";
+						for(var j=1;j<=3;j++)t+=unescape("%u"+Number(Math.floor(Math.random()*(0x9fa5-0x4e00)+0x4e00)).toString(16));
+						s+=pre+t+suf+"@"+team+"\n";
+					}
+				}
+				else if(mode=="digit"){
+					var s="!test!\n\n";
+					s+=pre+cur+"???"+suf+"@"+team+"\n";
+					cur++;
+				}
+				else{
+					for(var i=1;i<=gsize;i++){
+						var t="";
+						for(var j=1;j<=8;j++)t+="1234567890QWERTYUIOPASDFGHJKLZXCVBNM"[Math.floor(Math.random()*26)];
+						s+=pre+t+suf+"@"+team+"\n";
+					}
+				}
+				return s;
+			}
+			var x=C;C++;if(C==M)C=0;
 
-            if(stat[x]==0) {
-                var s="!test!\n\n";
-                for(var i=1;i<=gsize;i++)s+=pre+G(3)+"@"+team+"\n";
-                W(x).document.querySelector("#textdiv>textarea").value=s;
-                W(x).document.querySelector(".goBtn").click();
-                stat[x]=1;
-                is[x]=1;
-            } else if(stat[x]==1&&W(x).cw().document.querySelectorAll("span.u").length>=2) {
-                var a=W(x).cw().document.querySelectorAll(".s_elite3");
-                var n=a.length;
-                for(var i=0; i<n; i++) {
-                    stk[x].push(a[i].parentElement.previousElementSibling.textContent);
-                }
-                //console.log(names);
-                all+=gsize;
-                stat[x]=2;
-                is[x]=0;
+			if(stat[x]==0) {
+				var s=G();
+				W(x).document.querySelector("#textdiv>textarea").value=s;
+				W(x).document.querySelector(".goBtn").click();
+				stat[x]=1;
+				is[x]=1;
+			} else if(stat[x]==1&&W(x).cw().document.querySelectorAll("span.u").length>=2) {
+				var a=W(x).cw().document.querySelectorAll(".s_elite3");
+				var n=a.length;
+				for(var i=0; i<n; i++) {
+					stk[x].push(a[i].parentElement.previousElementSibling.textContent);
+				}
+				//console.log(names);
+				all+=gsize;
+				stat[x]=2;
+				is[x]=0;
 				document.querySelector(".count").value=all;
-            } else {
-                if(is[x]==0) {
-                    if(stk[x].length!=0) {
-                        var s=stk[x][stk[x].length-1];
-                        res[x]=s+" ";
-                        W(x).document.querySelector("#textdiv>textarea").value="!test!\n\n"+s;
-                        W(x).document.querySelector(".goBtn").click();
-                        is[x]=1;
-                        stk[x].pop();
-                    } else {
-                        stat[x]=0;
-                    }
-                } else {
-                    var a=W(x).cw().document.querySelectorAll("span.u");
-                    var n=a.length;
-                    if(n)if(a[n-1].textContent.search(/实力评估中...[1-9][1-9]%/)!=-1) {
-                        res[x]+=W(x).cw().document.querySelectorAll("span.u")[10].textContent.split(" ")[2]+"\n";
-                        is[x]=0;
-                        console.log(res[x]);
-						result_all+=res[x];
-						document.querySelector(".result").value=result_all;
-                    }
-                }
-            }
-        }
-        var si;
-        function start(){
+			} else {
+				if(is[x]==0) {
+					if(stk[x].length!=0) {
+						var s=stk[x][stk[x].length-1];
+						res[x]=s+" ";
+						W(x).document.querySelector("#textdiv>textarea").value="!test!\n\n"+s;
+						W(x).document.querySelector(".goBtn").click();
+						is[x]=1;
+						stk[x].pop();
+					} else {
+						stat[x]=0;
+					}
+				} else {
+					var a=W(x).cw().document.querySelectorAll("span.u");
+					var n=a.length;
+					if(n)if(a[n-1].textContent.search(/实力评估中...[1-9][1-9]%/)!=-1) {
+						var score=W(x).cw().document.querySelectorAll("span.u")[10].textContent.split(" ")[2];
+						res[x]+=score+"\n";
+						console.log(res[x]);
+						is[x]=0;
+						if(parseInt(score)>=parseInt(threshold)){
+							result_all+=res[x];
+							document.querySelector(".result").value=result_all;
+						}
+					}
+				}
+			}
+		}
+		var si;
+		function start(){
 			team=document.querySelector(".team").value;
 			pre=document.querySelector(".pre").value;
 			M=document.querySelector(".number").value;
 			delay=document.querySelector(".delay").value;
+			suf=document.querySelector(".suf").value;
+			mode=document.querySelector(".mode").value;
+			threshold=document.querySelector(".threshold").value;
 			document.querySelector(".start").disabled=true;
 			for(var i=1;i<=M;i++){
 				var NW = document.createElement('iframe'); 
@@ -85,8 +124,8 @@
 				NW.hidden=true;
 				document.body.appendChild(NW);
 			}
-            setTimeout(function(){ si=setInterval(function(){chk()},delay*1000) },10000);
-        }
+			setTimeout(function(){ si=setInterval(function(){chk()},delay*1000) },document.querySelector(".timeout").value*1000);
+		}
 		function save(){
 			var data=result_all;
 			var name=((new Date()).toLocaleDateString() + (new Date()).toLocaleTimeString()).replace(/ *[:\/]/g,"_")+".txt";
@@ -99,18 +138,35 @@
 			ev.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 			save_link.dispatchEvent(ev);
 		}
-    </script>
+	</script>
 </head>
 <body>
 	<div class="main">
-		<div class="left">
-			<div>战队<input type="text" class="team" value="战队名"></input></div>
-			<div>前缀<input type="text" class="pre" value="前缀"></input></div>
-			<div>多开（1-16）<input type="text" class="number" value="8"></input></div>
-			<div>检查时间（秒）<input type="text" class="delay" value="1"></input></div>
+		<div class="w300 settings">
+			<div class="a100">战队<input type="text" class="team" value="战队名"></input></div>
+			<div class="a100">前缀<input type="text" class="pre" value="前缀"></input></div>
+			<div class="a100">后缀<input type="text" class="suf" value=""></input></div>
+			<div class="a100">模式
+				<select class="mode">
+					<option selected="selected" value="hanzi">3个随机汉字</option>
+					<option value="digit">从0开始的数字</option>
+					<option value="alnum">随机的8个数字和大写字母</option>
+				</select>
+			</div>
+			<div><input type="checkbox" value="elite2">评测2级号（暂未更新）</input></div>
+		</div>
+		<div style="float:left;margin:10px;margin-top: 20px;width: 1px;height: 90%; background: darkgray;"></div> 
+		<div class="w300 settings">
+			<div class="a100">多开（1-16）<input type="text" class="number" value="8"></input></div>
+			<div class="a100">最低评分（粗评低于这个评分的名字将会被丢弃）<input type="text" class="threshold" value="6000"></input></div>
+			<div class="a100">检查时间（秒）<input type="text" class="delay" value="1"></input></div>
+			<div class="a100">开始延迟（秒）<input type="text" class="timeout" value="10"></input></div>
+		</div>
+		<div style="float:left;margin:10px;margin-top: 20px;width: 1px;height: 90%; background: darkgray;"></div> 
+		<div class="w300 res">
 			<button onclick="start()" class="start">开始</button>
-			<div>测号计数<input type="text" class="count" value="0" readonly></input></div>
-			<div>结果</div>
+			<div class="a100">测号计数<input type="text" class="count" value="0" readonly></input></div>
+			<div class="a100">结果</div>
 			<button onclick="save()" class="save">下载结果</button>
 			<textarea class="result" placeholder="结果将会显示在这里" readonly></textarea>
 		</div>
