@@ -29,7 +29,7 @@
 		}
 	</style>
 	<script>
-		var M=8,C=0,delay=1,all=0,gsize=1000,mode,cur=0,threshold;
+		var M=8,C=0,delay=1,all=0,gsize=1000,mode,cur=0,threshold,upgrade=false;
 		var pre="文鸽",suf="",team="文哥";
 		var stk=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 		var stat=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -85,7 +85,9 @@
 					if(stk[x].length!=0) {
 						var s=stk[x][stk[x].length-1];
 						res[x]=s+" ";
-						W(x).document.querySelector("#textdiv>textarea").value="!test!\n\n"+s;
+						var t="!test!\n";
+						if(upgrade==true)t+="!\n";
+						W(x).document.querySelector("#textdiv>textarea").value=t+"\n"+s;
 						W(x).document.querySelector(".goBtn").click();
 						is[x]=1;
 						stk[x].pop();
@@ -108,7 +110,7 @@
 				}
 			}
 		}
-		var si;
+		var si,asi;
 		function start(){
 			team=document.querySelector(".team").value;
 			pre=document.querySelector(".pre").value;
@@ -117,7 +119,9 @@
 			suf=document.querySelector(".suf").value;
 			mode=document.querySelector(".mode").value;
 			threshold=document.querySelector(".threshold").value;
+			upgrade=document.querySelector(".upgrade").checked;
 			document.querySelector(".start").disabled=true;
+			
 			for(var i=1;i<=M;i++){
 				var NW = document.createElement('iframe'); 
 				NW.src="https://wengesvip.github.io/namerena.github.io";  
@@ -125,6 +129,9 @@
 				document.body.appendChild(NW);
 			}
 			setTimeout(function(){ si=setInterval(function(){chk()},delay*1000) },document.querySelector(".timeout").value*1000);
+			if(document.querySelector(".autosave").checked==true){
+				setTimeout(function(){ asi=setInterval(function(){save()},10*60*1000) },10*60*1000);
+			}
 		}
 		function save(){
 			var data=result_all;
@@ -153,7 +160,9 @@
 					<option value="alnum">随机的8个数字和大写字母</option>
 				</select>
 			</div>
-			<div><input type="checkbox" value="elite2">评测2级号（暂未更新）</input></div>
+			<div><input type="checkbox" class="elite2" value="elite2">评测2级号（暂未更新）</input></div>
+			<div><input type="checkbox" class="upgrade" value="upgrade">将普评替换为强评（暂未更新）</input></div>
+			<div><input type="checkbox" class="autosave" value="autosave">每隔10分钟自动下载结果（暂未更新）</input></div>
 		</div>
 		<div style="float:left;margin:10px;margin-top: 20px;width: 1px;height: 90%; background: darkgray;"></div> 
 		<div class="w300 settings">
