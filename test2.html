@@ -32,7 +32,7 @@
 	</style>
 	<script>
 		var D={
-			max_window:8,
+			max_window:2,
 			cur_window:0,
 			prefix:"",
 			suffix:"",
@@ -141,7 +141,7 @@
 			D.upgrade=Q(".upgrade").checked;
 			Q(".start").disabled=true;
 			
-			for(var i=1;i<=D.max_window+1;i++){//start window
+			for(var i=0;i<=D.max_window;i++){//start window
 				var NW = document.createElement('iframe'); 
 				NW.src="https://wengesvip.github.io/namerena.github.io";  
 				NW.hidden=true;
