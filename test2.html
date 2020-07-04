@@ -141,14 +141,14 @@
 			D.upgrade=Q(".upgrade").checked;
 			Q(".start").disabled=true;
 			
-			for(var i=1;i<=D.max_window;i++){//start window
+			for(var i=1;i<=D.max_window+1;i++){//start window
 				var NW = document.createElement('iframe'); 
 				NW.src="https://wengesvip.github.io/namerena.github.io";  
 				NW.hidden=true;
 				document.body.appendChild(NW);
 			}
 			
-			setTimeout(function(){ R();tsi=setInterval(function(){T()},Q(".delay").value); },10000);
+			setTimeout(function(){ R();tsi=setInterval(function(){T()},Q(".delay").value);bsi=setInterval(function(){B()},5000); },10000);
 			/*if(document.querySelector(".autosave").checked==true){
 				setTimeout(function(){ asi=setInterval(function(){save()},10*60*1000) },10*60*1000);
 			}*/
