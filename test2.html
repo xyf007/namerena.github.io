@@ -106,7 +106,9 @@
 				var a=WQA(i,".s_elite3");
 				var n=a.length;
 				for(var j=0;j<n;j++){
-					D.stk.push(a[j].parentElement.previousElementSibling.textContent.replace(/^\s+|\s+$/g,""));
+					var r=a[j].parentElement.previousElementSibling.textContent.replace(/^\s+|\s+$/g,"");
+					D.stk.push(r);
+					console.log(r);
 				}
 				WR(i);
 				D.retry[i]=0;
