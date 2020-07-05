@@ -46,7 +46,8 @@
 			is:0,
 			res:"",
 			res_all:"",
-			tested:0
+			tested:0,
+			retry:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
 		}
 		
 		var W=function(n){return document.querySelectorAll('iframe')[n].contentWindow};
@@ -95,7 +96,13 @@
 		
 		var T=function(){
 			for(var i=1;i<=D.max_window;i++){
-				if(WQA(i,"div.name").length<10)continue;
+				if(D.retry[i]>15){
+					WR(i);
+					D.retry[i]=0;
+				}
+				if(WQA(i,"div.name").length<10){
+					D.retry[i]++;
+				}
 				var a=WQA(i,".s_elite3");
 				var n=a.length;
 				for(var j=0;j<n;j++){
