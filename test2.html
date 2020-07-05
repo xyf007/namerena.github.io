@@ -135,6 +135,7 @@
 				if(n)if(a[n-1].textContent.search(/实力评估中...[1-9][1-9]%/)!=-1) {
 					D.res+=WQA(0,"span.u")[10].textContent.split(" ")[2]+"\n";
 					D.is=0;
+					D.stk.pop();
 					D.res_all+=D.res;
 					Q(".result").value=D.res_all;
 				}
