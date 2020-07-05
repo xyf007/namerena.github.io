@@ -96,12 +96,13 @@
 		
 		var T=function(){
 			for(var i=1;i<=D.max_window;i++){
-				if(D.retry[i]>50){
+				if(D.retry[i]>20){
 					WR(i);
 					D.retry[i]=0;
 				}
 				if(WQA(i,"div.name").length<10){
 					D.retry[i]++;
+					continue;
 				}
 				var a=WQA(i,".s_elite3");
 				var n=a.length;
