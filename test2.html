@@ -99,6 +99,7 @@
 				if(D.retry[i]>20){
 					WR(i);
 					D.retry[i]=0;
+					console.log("skip in "+i);
 				}
 				if(WQA(i,"div.name").length<10){
 					D.retry[i]++;
@@ -122,7 +123,7 @@
 					var s=D.stk[D.stk.length-1];
 					D.res=s+" ";
 					S("!test!\n\n"+s,0);
-					is=1;
+					D.is=1;
 				}
 				else{
 					S("",0);
@@ -133,7 +134,7 @@
 				var n=a.length;
 				if(n)if(a[n-1].textContent.search(/实力评估中...[1-9][1-9]%/)!=-1) {
 					D.res+=WQA(0,"span.u")[10].textContent.split(" ")[2]+"\n";
-					is=0;
+					D.is=0;
 					D.res_all+=D.res;
 					Q(".result").value=D.res_all;
 				}
