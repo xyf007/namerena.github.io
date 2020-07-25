@@ -1,6 +1,6 @@
 <html>
 <head>
-	<title>æ–‡å“¥æµ‹å·å™¨</title>
+	<title>ÎÄ¸ç²âºÅÆ÷</title>
 	<link rel="shortcut icon" href="wenge.ico">
 	<style type="text/css">
 		.main{
@@ -30,9 +30,10 @@
 			min-height:500px;
 		}
 	</style>
+	<script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
 	<script>
-		var M=8,C=0,delay=1,all=0,gsize=1000,mode,cur=0,threshold,upgrade=false;
-		var pre="æ–‡é¸½",suf="",team="æ–‡å“¥";
+		var M=8,C=0,delay=1,all=0,gsize=1000,mode,cur=0,threshold,upgrade=false,quc=0;
+		var pre="ÎÄ¸ë",suf="",team="ÎÄ¸ç";
 		var stk=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]];
 		var stat=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 		var is=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
@@ -81,7 +82,9 @@
 				all+=gsize;
 				stat[x]=2;
 				is[x]=0;
+				quc+=gsize/1000;
 				document.querySelector(".count").value=all;
+				document.querySelector(".quc").value=quc;
 			} else {
 				if(is[x]==0) {
 					if(stk[x].length!=0) {
@@ -99,7 +102,7 @@
 				} else {
 					var a=W(x).cw().document.querySelectorAll("span.u");
 					var n=a.length;
-					if(n)if(a[n-1].textContent.search(/å®åŠ›è¯„ä¼°ä¸­...[1-9][1-9]%/)!=-1) {
+					if(n)if(a[n-1].textContent.search(/ÊµÁ¦ÆÀ¹ÀÖĞ...[1-9][1-9]%/)!=-1) {
 						var score=W(x).cw().document.querySelectorAll("span.u")[10].textContent.split(" ")[2];
 						res[x]+=score+"\n";
 						console.log(res[x]);
@@ -147,39 +150,67 @@
 			ev.initMouseEvent("click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
 			save_link.dispatchEvent(ev);
 		}
+		function generate_quc(){
+			var value=quc+"";
+			quc=0;
+			document.querySelector(".quc").value=quc;
+			var time = (new Date()).valueOf();
+			document.querySelector(".quc_value").value=value;
+			document.querySelector(".quc_timestamp").value=time;
+			document.querySelector(".quc_password").value=md5(value+time);
+		}
+		function verify_quc(){
+			var value=document.querySelector(".vquc_value").value;
+			var time =document.querySelector(".vquc_timestamp").value;
+			var password=document.querySelector(".vquc_password").value;
+			if(md5(value+time)==password)document.querySelector(".vquc_result").value="Í¨¹ı";
+			else document.querySelector(".vquc_result").value="Î´Í¨¹ı";
+		}
 	</script>
 </head>
 <body>
 	<div class="main">
 		<div class="w300 settings">
-			<div class="a100">æˆ˜é˜Ÿ<input type="text" class="team" value="æˆ˜é˜Ÿå"></input></div>
-			<div class="a100">å‰ç¼€<input type="text" class="pre" value="å‰ç¼€"></input></div>
-			<div class="a100">åç¼€<input type="text" class="suf" value=""></input></div>
-			<div class="a100">æ¨¡å¼
+			<div class="a100">Õ½¶Ó<input type="text" class="team" value="Õ½¶ÓÃû"></input></div>
+			<div class="a100">Ç°×º<input type="text" class="pre" value="Ç°×º"></input></div>
+			<div class="a100">ºó×º<input type="text" class="suf" value=""></input></div>
+			<div class="a100">Ä£Ê½
 				<select class="mode">
-					<option selected="selected" value="hanzi">3ä¸ªéšæœºæ±‰å­—</option>
-					<option value="digit">ä»0å¼€å§‹çš„æ•°å­—</option>
-					<option value="alnum">éšæœºçš„8ä¸ªæ•°å­—å’Œå¤§å†™å­—æ¯</option>
+					<option selected="selected" value="hanzi">3¸öËæ»úºº×Ö</option>
+					<option value="digit">´Ó0¿ªÊ¼µÄÊı×Ö</option>
+					<option value="alnum">Ëæ»úµÄ8¸öÊı×ÖºÍ´óĞ´×ÖÄ¸</option>
 				</select>
 			</div>
-			<div><input type="checkbox" class="elite2" value="elite2">è¯„æµ‹2çº§å·ï¼ˆæš‚æœªæ›´æ–°ï¼‰</input></div>
-			<div><input type="checkbox" class="upgrade" value="upgrade">å°†æ™®è¯„æ›¿æ¢ä¸ºå¼ºè¯„</input></div>
-			<div><input type="checkbox" class="autosave" value="autosave">æ¯éš”10åˆ†é’Ÿè‡ªåŠ¨ä¸‹è½½ç»“æœ</input></div>
+			<div class="a100">¶à¿ª£¨1-16£©<input type="text" class="number" value="8"></input></div>
+			<div class="a100">×îµÍÆÀ·Ö£¨´ÖÆÀµÍÓÚÕâ¸öÆÀ·ÖµÄÃû×Ö½«»á±»¶ªÆú£©<input type="text" class="threshold" value="6000"></input></div>
+			<div class="a100">¼ì²éÊ±¼ä£¨Ãë£©<input type="text" class="delay" value="1"></input></div>
+			<div class="a100">¿ªÊ¼ÑÓ³Ù£¨Ãë£©<input type="text" class="timeout" value="10"></input></div>
+			<div><input type="checkbox" class="elite2" value="elite2">ÆÀ²â2¼¶ºÅ£¨ÔİÎ´¸üĞÂ£©</input></div>
+			<div><input type="checkbox" class="upgrade" value="upgrade">½«ÆÕÆÀÌæ»»ÎªÇ¿ÆÀ</input></div>
+			<div><input type="checkbox" class="autosave" value="autosave">Ã¿¸ô10·ÖÖÓ×Ô¶¯ÏÂÔØ½á¹û</input></div>
 		</div>
 		<div style="float:left;margin:10px;margin-top: 20px;width: 1px;height: 90%; background: darkgray;"></div> 
 		<div class="w300 settings">
-			<div class="a100">å¤šå¼€ï¼ˆ1-16ï¼‰<input type="text" class="number" value="8"></input></div>
-			<div class="a100">æœ€ä½è¯„åˆ†ï¼ˆç²—è¯„ä½äºè¿™ä¸ªè¯„åˆ†çš„åå­—å°†ä¼šè¢«ä¸¢å¼ƒï¼‰<input type="text" class="threshold" value="6000"></input></div>
-			<div class="a100">æ£€æŸ¥æ—¶é—´ï¼ˆç§’ï¼‰<input type="text" class="delay" value="1"></input></div>
-			<div class="a100">å¼€å§‹å»¶è¿Ÿï¼ˆç§’ï¼‰<input type="text" class="timeout" value="10"></input></div>
+			<div class="a100">µ±Ç°¿Éµ¼³öµÄÁ¿×Ó±Ò£¨QUC£©ÊıÁ¿<input type="text" class="quc" value="0" readonly></input></div>
+			<button onclick="generate_quc()" class="generate_quc">Éú³ÉQUC</button>
+			<div class="a100">QUC¼ÛÖµ<input type="text" class="quc_value" value="" readonly></input></div>
+			<div class="a100">QUCÊ±¼ä<input type="text" class="quc_timestamp" value="" readonly></input></div>
+			<div class="a100">QUCÃÜÂë<input type="text" class="quc_password" value="" readonly></input></div>
+			
+			<div class="a100">QUCÑéÖ¤£º</div>
+			<div class="a100">QUC¼ÛÖµ<input type="text" class="vquc_value" value=""></input></div>
+			<div class="a100">QUCÊ±¼ä<input type="text" class="vquc_timestamp" value=""></input></div>
+			<div class="a100">QUCÃÜÂë<input type="text" class="vquc_password" value=""></input></div>
+			<button onclick="verify_quc()" class="verify_quc">ÑéÖ¤QUC</button>
+			<div class="a100">ÑéÖ¤½á¹û<input type="text" class="vquc_result" value="" readonly></input></div>
 		</div>
 		<div style="float:left;margin:10px;margin-top: 20px;width: 1px;height: 90%; background: darkgray;"></div> 
 		<div class="w300 res">
-			<button onclick="start()" class="start">å¼€å§‹</button>
-			<div class="a100">æµ‹å·è®¡æ•°<input type="text" class="count" value="0" readonly></input></div>
-			<div class="a100">ç»“æœ</div>
-			<button onclick="save()" class="save">ä¸‹è½½ç»“æœ</button>
-			<textarea class="result" placeholder="ç»“æœå°†ä¼šæ˜¾ç¤ºåœ¨è¿™é‡Œ" readonly></textarea>
+			<button onclick="start()" class="start">¿ªÊ¼</button>
+			<div class="a100">²âºÅ¼ÆÊı<input type="text" class="count" value="0" readonly></input></div>
+			<div class="a100">½á¹û</div>
+			<button onclick="save()" class="save">ÏÂÔØ½á¹û</button>
+			<textarea class="result" placeholder="½á¹û½«»áÏÔÊ¾ÔÚÕâÀï" readonly></textarea>
 		</div>
 	</div>
 </html>
